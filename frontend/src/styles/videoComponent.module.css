@@ -1,0 +1,209 @@
+/* Root container for the video meeting layout */
+.meetVideoContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #2c3e50);
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden; /* Prevents unnecessary scrolling */
+  }
+  
+  /* Local user video (floating in the corner) */
+  .meetUserVideo {
+    position: fixed; /* Fixed position to avoid moving with scroll */
+    bottom: 6rem;
+    right: 1rem;
+    width: 180px;
+    height: 140px;
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    background-color: #000000; /* Ensures a consistent background */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    z-index: 10;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .meetUserVideo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Bottom button container */
+  .buttonContainer {
+    position: fixed; /* Fixed position to stay at the bottom */
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95); /* Ensures visibility without transparency issues */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    z-index: 20; /* Always on top of other elements */
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Icon buttons styling */
+  .buttonContainer .MuiIconButton-root {
+    color: #ffffff;
+    background: linear-gradient(135deg, #007bff, #00d4ff);
+    border-radius: 50%;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .buttonContainer .MuiIconButton-root:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Video grid container */
+  .conferenceView {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+    flex-grow: 1;
+    overflow-y: auto; /* Enables scrolling for the participant videos */
+    margin-bottom: 6rem; /* Prevents overlap with the function bar */
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Individual video styling */
+  .conferenceView video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 3px solid #ffffff;
+    border-radius: 16px;
+    background-color: #000000; /* Default background for videos */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .conferenceView video:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+  }
+  
+  /* Chatroom container */
+  .chatRoom {
+    position: fixed;
+    height: 90vh;
+    right: 0;
+    top: 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 30vw;
+    padding: 1rem 1.5rem;
+    color: #2c3e50;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Scrollable chat area */
+    z-index: 15;
+  }
+  
+  /* Chat container */
+  .chatContainer {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Chatting area at the bottom */
+  .chattingArea {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    background-color: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Input field for chatting */
+  .chattingArea input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 1rem;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+  }
+  
+  /* Send button styling */
+  .chattingArea button {
+    border: none;
+    padding: 0.5rem 0.5rem;
+    background: linear-gradient(135deg, #19314c, #9ecdd6);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .chattingArea button:hover {
+    background: linear-gradient(135deg, #19314c, #9ecdd6);
+    transform: scale(1.05);
+  }
+  
+  /* Responsive layout for smaller screens */
+  @media screen and (max-width: 768px) {
+    .meetUserVideo {
+      width: 150px;
+      height: 120px;
+      bottom: 4rem;
+    }
+  
+    .conferenceView {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+  
+    .chatRoom {
+      width: 40vw;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .meetUserVideo {
+      width: 120px;
+      height: 90px;
+    }
+  
+    .buttonContainer {
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0.5rem 1rem;
+    }
+  
+    .conferenceView {
+      padding: 0.5rem;
+    }
+  
+    .chatRoom {
+      width: 100%
+    }
+  
+    .chattingArea input {
+      font-size: 0.9rem;
+    }
+  
+    .chattingArea button {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem;
+     
+  
+    }
+  }
