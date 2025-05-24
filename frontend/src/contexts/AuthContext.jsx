@@ -1,34 +1,35 @@
-import { createContext, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import httpStatus from "http-status";
+import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import server from "../environment";
-// Create AuthContext
+
+
 export const AuthContext = createContext({});
 
-// Configure Axios client
 const client = axios.create({
-    baseURL: `${server}/api/v1/users`, // Ensure the protocol is included
-});
+    baseURL: `${server}/api/v1/users`
+})
 
 
-
-// AuthProvider Component
 export const AuthProvider = ({ children }) => {
-    // State to store user data
-    const [userData, setUserData] = useState(null);
 
-    // Router for navigation
+    const authContext = useContext(AuthContext);
+
+
+    const [userData, setUserData] = useState(authContext);
+
+
     const router = useNavigate();
 
-    // Handle user registration
     const handleRegister = async (name, username, password) => {
         try {
-            const request = await client.post("/register", {
+            let request = await client.post("/register", {
                 name: name,
                 username: username,
-                password: password,
-            });
+                password: password
+            })
+
 
             if (request.status === httpStatus.CREATED) {
                 return request.data.message;
@@ -36,17 +37,17 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             throw err;
         }
-    };
+    }
 
-
-
-    // Handle user login
     const handleLogin = async (username, password) => {
         try {
-            const request = await client.post("/login", {
+            let request = await client.post("/login", {
                 username: username,
-                password: password,
+                password: password
             });
+
+            console.log(username, password)
+            console.log(request.data)
 
             if (request.status === httpStatus.OK) {
                 localStorage.setItem("token", request.data.token);
@@ -55,31 +56,27 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             throw err;
         }
-    };
-    
+    }
 
-    const getHistoryOfUser=async()=>{
-        try{
-            let request=await client.get("/get_all_activity",{
-                params:{
-                    token:localStorage.getItem("token")
+    const getHistoryOfUser = async () => {
+        try {
+            let request = await client.get("/get_all_activity", {
+                params: {
+                    token: localStorage.getItem("token")
                 }
             });
             return request.data
-        }
-        catch(err){
+        } catch
+         (err) {
             throw err;
-
         }
-
     }
 
-
-    const addToUserHistory = async (meetingcode) => {
+    const addToUserHistory = async (meetingCode) => {
         try {
             let request = await client.post("/add_to_activity", {
                 token: localStorage.getItem("token"),
-                meeting_code: meetingcode
+                meeting_code: meetingCode
             });
             return request
         } catch (e) {
@@ -87,21 +84,15 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    // Data shared via context
+
     const data = {
-        userData,
-        setUserData,
-        addToUserHistory,
-        getHistoryOfUser,
-        handleRegister,
+        userData, setUserData, addToUserHistory, getHistoryOfUser, handleRegister, handleLogin
+    }
 
-        handleLogin,
-    };
-
-    // Provide the context to child components
     return (
         <AuthContext.Provider value={data}>
             {children}
         </AuthContext.Provider>
-    );
-};
+    )
+
+}

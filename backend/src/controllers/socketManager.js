@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import { Server } from "socket.io"
 
 
 let connections = {}
@@ -18,7 +18,7 @@ export const connectToSocket = (server) => {
 
     io.on("connection", (socket) => {
 
-        console.log("SOMETHING CONNECTED");
+        console.log("SOMETHING CONNECTED")
 
         socket.on("join-call", (path) => {
 
@@ -117,3 +117,4 @@ export const connectToSocket = (server) => {
 
     return io;
 }
+

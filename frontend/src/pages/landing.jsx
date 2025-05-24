@@ -1,47 +1,53 @@
-import React from "react";
-import "../App.css";
-import { Link, useNavigate } from "react-router-dom";
-
+import React from 'react'
+import "../App.css"
+import { Link, useNavigate } from 'react-router-dom'
 export default function LandingPage() {
-  const router=useNavigate();
-  return (
 
-    <div className="landingPageContainer">
-      {/* Navbar */}
-      <nav className="navbar">
-        <h2 className="logo">Connectra</h2>
-        <div className="navLinks">
-          <p className="navItem" onClick={()=>{
-            router("/qscfb");
-          }}>Join as Guest</p>
-          <p className="navItem" onClick={()=>{
-            router("/auth");
-          }}>Register</p>
-          <div className="navButton" onClick={()=>{
-            router("/auth");
-          }}>Login</div>
+
+    const router = useNavigate();
+
+    return (
+        <div className='landingPageContainer'>
+            <nav>
+                <div className='navHeader'>
+                    <h2>Connectra</h2>
+                </div>
+                <div className='navlist'>
+                    <p onClick={() => {
+                        router("/aljk23")
+                    }}>Join as Guest</p>
+                    <p onClick={() => {
+                        router("/auth")
+
+                    }}>Register</p>
+                    <div onClick={() => {
+                        router("/auth")
+
+                    }} role='button'>
+                        <p>Login</p>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div className="landingMainContainer">
+                <div>
+                    <h1><span style={{ color: "#FF9839" }}>Connect</span> with your loved Ones</h1>
+
+                    <p>Cover a distance by Connectra Video Call</p>
+                    <div role='button'>
+                        <Link to={"/auth"}>Get Started</Link>
+                    </div>
+                </div>
+                <div>
+
+                    <img src="/mobile.png" alt="" />
+
+                </div>
+            </div>
+
+
+
         </div>
-      </nav>
-
-
-
-
-
-      {/* Hero Section */}
-      <div className="heroSection">
-        <div className="heroText">
-          <h1 >
-            <span className="highlight">Connect</span> with your loved ones
-          </h1>
-          <p>Bridge the distance with seamless video calls using Connectra.</p>
-          <Link to={"/auth"} className="ctaButton">
-            Get Started
-          </Link>
-        </div>
-        <div className="heroImage">
-          <img src="/mobile.png" alt="Video Call Illustration" />
-        </div>
-      </div>
-    </div>
-  );
+    )
 }

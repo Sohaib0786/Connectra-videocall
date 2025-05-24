@@ -1,77 +1,88 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
-import axios from 'axios';
-import { IconButton } from '@mui/material';
-import "../styles/History.css"; // Importing custom CSS for styling
-import server from '../environment.js'; // Importing server configuration
 
+import { IconButton } from '@mui/material';
 export default function History() {
-    const { getHistoryOfUser } = useContext(AuthContext); // Context for auth
-    const [meetings, setMeetings] = useState([]); // State to store meetings
+
+
+    const { getHistoryOfUser } = useContext(AuthContext);
+
+    const [meetings, setMeetings] = useState([])
+
+
     const routeTo = useNavigate();
 
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const token = localStorage.getItem("token"); // Get token from local storage
-                const response = await axios.get(`${server}/api/v1/users/get_all_activity`, {
-                    params: { token: token }
-                });
-                console.log("History fetched successfully:", response.data);
-                setMeetings(response.data); // Update state with fetched data
-            } catch (error) {
-                console.error("Failed to fetch history:", error);
+                const history = await getHistoryOfUser();
+                setMeetings(history);
+            } catch {
+                // IMPLEMENT SNACKBAR
             }
-        };
+        }
 
-        fetchHistory(); // Call function to fetch history when component mounts
-    }, []);
+        fetchHistory();
+    }, [])
 
     let formatDate = (dateString) => {
+
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0")
         const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+
+        return `${day}/${month}/${year}`
+
+    }
 
     return (
-        <div className="history-container">
-            <div className="header">
-                <IconButton onClick={() => routeTo("/home")} className="home-button">
-                    <HomeIcon />
-                </IconButton>
-                <Typography variant="h5" className="title">Meeting History</Typography>
-            </div>
+        <div>
 
-            {/* Render meetings if available */}
-            {meetings.length !== 0 ? (
-                <div className="meetings-list">
-                    {meetings.map((e, i) => (
-                        <Card key={i} variant="outlined" className="meeting-card">
-                            <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    Code: {e.meetingcode}
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    Date: {formatDate(e.date)}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            ) : (
-                <Typography variant="h6" color="text.secondary" className="no-history">
-                    No meeting history available.
-                </Typography>
-            )}
+            <IconButton onClick={() => {
+                routeTo("/home")
+            }}>
+                <HomeIcon />
+            </IconButton >
+            {
+                (meetings.length !== 0) ? meetings.map((e, i) => {
+                    return (
+
+                        <>
+
+
+                            <Card key={i} variant="outlined">
+
+
+                                <CardContent>
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        Code: {e.meetingCode}
+                                    </Typography>
+
+                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                        Date: {formatDate(e.date)}
+                                    </Typography>
+
+                                </CardContent>
+
+
+                            </Card>
+
+
+                        </>
+                    )
+                }) : <></>
+
+            }
+
         </div>
-    );
+    )
 }
-
-

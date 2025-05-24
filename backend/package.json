@@ -8,18 +8,18 @@
     "start": "node src/app.js",
     "prod": "pm2 src/app.js"
   },
-  "author": "Mohd Sohaib",
+  "author": "apnacollege",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "express": "^5.1.0",
-    "http-status": "^2.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.13.2",
-    "nodemon": "^3.1.9",
-    "socket.io": "^4.8.1"
-  }
+    "express": "^4.21.2",
+    "http-status": "^1.7.3",
+    "mongoose": "^8.0.3",
+    "nodemon": "^3.0.2",
+    "socket.io": "^4.7.3"
+  },
+  "keywords": [],
+  "description": ""
 }
