@@ -14,7 +14,8 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
-
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -23,28 +24,30 @@ const defaultTheme = createTheme();
 
 export default function Authentication() {
 
-    
-
     const [username, setUsername] = React.useState();
     const [password, setPassword] = React.useState();
     const [name, setName] = React.useState();
     const [error, setError] = React.useState();
     const [message, setMessage] = React.useState();
-
-
     const [formState, setFormState] = React.useState(0);
-
     const [open, setOpen] = React.useState(false)
 
 
     const { handleRegister, handleLogin } = React.useContext(AuthContext);
+                
+    
+        const navigate = useNavigate();
+      
+        const handleNavigateHome = () => {
+          navigate('/'); // or '/home' if your home route is defined as such
+        };
 
     let handleAuth = async () => {
+        
         try {
             if (formState === 0) {
 
                 let result = await handleLogin(username, password)
-
 
             }
             if (formState === 1) {
@@ -53,9 +56,9 @@ export default function Authentication() {
                 setUsername("");
                 setMessage(result);
                 setOpen(true);
-                setError("")
-                setFormState(0)
-                setPassword("")
+                setError("");
+                setFormState(0);
+                setPassword("");
             }
         } catch (err) {
 
@@ -68,7 +71,11 @@ export default function Authentication() {
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid 
+            container 
+            component="main" 
+            sx={{ height: '100vh' }}>
+
                 <CssBaseline />
                 <Grid
                     item
@@ -79,7 +86,7 @@ export default function Authentication() {
                         backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+           t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
@@ -100,7 +107,8 @@ export default function Authentication() {
 
 
                         <div>
-                            <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0) }}>
+                            <Button variant={formState === 0 ? "contained" : ""} 
+                            onClick={() => { setFormState(0) }}>
                                 Sign In
                             </Button>
                             <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1) }}>
@@ -142,7 +150,6 @@ export default function Authentication() {
                                 value={password}
                                 type="password"
                                 onChange={(e) => setPassword(e.target.value)}
-
                                 id="password"
                             />
 
@@ -159,7 +166,15 @@ export default function Authentication() {
                             </Button>
 
                         </Box>
+                        <Button 
+                        type="button" 
+                         margin="5"
+                         onClick={handleNavigateHome}
+                         
+                         >Back</Button>
+                    
                     </Box>
+                    
                 </Grid>
             </Grid>
 
